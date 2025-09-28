@@ -1,29 +1,26 @@
-package com.project_back_end.services;
+package com.project.back_end.services;
 
-import com.project_back_end.models.Doctor;
+import com.project.back_end.models.Doctor;
+import com.project.back_end.repo.DoctorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Collections;
+import java.util.stream.Collectors;
 
-/**
- * Placeholder DoctorService.
- * In a Spring app mark this with @Service and inject repositories.
- */
+@Service
 public class DoctorService {
 
-    public List<Doctor> findAllDoctors() {
-        return Collections.emptyList();
-    }
+    @Autowired
+    private DoctorRepository doctorRepository;
 
-    public Doctor findById(Long id) {
-        return new Doctor(id, "Dr. Placeholder", "General", "doctor@example.com");
-    }
-
-    public Doctor save(Doctor doctor) {
-        // placeholder save
-        return doctor;
-    }
-
-    public void deleteById(Long id) {
-        // placeholder delete
+    public List<String> getAvailability(Long doctorId, LocalDate date) {
+        Doctor d = doctorRepository.findById(doctorId).orElse(null);
+        if (d == null) return java.util.Collections.emptyList();
+        String prefix = date.toString();
+        return d.getAvailableTimes().stream()
+                .filter(t -> t.startsWith(prefix))
+                .collect(Collectors.toList());
     }
 }

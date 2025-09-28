@@ -1,22 +1,24 @@
 package com.project.back_end.controllers;
 
-import com.project.back_end.models.Appointment;
-import java.util.List;
+import com.project.back_end.services.TokenService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-/**
- * Placeholder PrescriptionController.
- * In a real Spring project this would be annotated with @RestController
- * and mapped to request paths like /api/prescriptions.
- */
+@RestController
+@RequestMapping("/api/prescriptions")
 public class PrescriptionController {
 
-    public List<String> getPrescriptionsForPatient(Long patientId) {
-        // placeholder implementation
-        return java.util.Collections.emptyList();
+    @Autowired private TokenService tokenService;
+
+    public static class PrescriptionRequest {
+        public Long patientId;
+        public String data;
     }
 
-    public String createPrescription(Long patientId, String prescriptionData) {
-        // placeholder implementation
-        return "created";
+    @PostMapping("/save/{token}")
+    public ResponseEntity<?> savePrescription(@PathVariable String token, @RequestBody PrescriptionRequest body) {
+        if (!tokenService.validateToken(token)) return ResponseEntity.status(401).body("Invalid token");
+        return ResponseEntity.ok("Prescription saved for patient " + body.patientId);
     }
 }

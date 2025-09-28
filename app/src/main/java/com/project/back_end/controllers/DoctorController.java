@@ -1,24 +1,31 @@
 package com.project.back_end.controllers;
 
-import com.project.back_end.models.Doctor;
-import com.project.back_end.models.Appointment;
+import com.project.back_end.services.DoctorService;
+import com.project.back_end.services.TokenService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.util.List;
 
-/**
- * Placeholder DoctorController for submission.
- * In a real Spring project this would be annotated with @RestController or @Controller
- * and have request mapping methods.
- */
+@RestController
+@RequestMapping("/api/doctors")
 public class DoctorController {
 
-    // Example placeholder method signatures
-    public List<Appointment> getAppointmentsForDoctor(Long doctorId) {
-        // placeholder implementation
-        return java.util.Collections.emptyList();
-    }
+    @Autowired private DoctorService doctorService;
+    @Autowired private TokenService tokenService;
 
-    public Doctor getDoctorById(Long doctorId) {
-        // placeholder implementation
-        return new Doctor(doctorId, "Dr. Placeholder", "General", "doctor@example.com");
+    @GetMapping("/availability/{user}/{doctorId}/{date}/{token}")
+    public ResponseEntity<?> availabilityByPath(
+            @PathVariable String user,
+            @PathVariable Long doctorId,
+            @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            @PathVariable String token) {
+
+        if (!tokenService.validateToken(token)) return ResponseEntity.status(401).body("Invalid token");
+        List<String> slots = doctorService.getAvailability(doctorId, date);
+        return ResponseEntity.ok(slots);
     }
 }

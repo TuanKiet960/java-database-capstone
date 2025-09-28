@@ -1,16 +1,10 @@
 package com.project.back_end.repo;
 
-import com.project.back_end.models.Appointment;
-import com.project.back_end.models.Doctor;
 import com.project.back_end.models.Patient;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 
-/**
- * Placeholder PatientRepository.
- * In a real Spring Data JPA project this would extend JpaRepository<Patient, Long>
- * and be annotated or picked up by Spring's component scanning.
- */
-public interface PatientRepository {
-    Patient findById(Long id);
-    Patient save(Patient patient);
-    void deleteById(Long id);
+public interface PatientRepository extends JpaRepository<Patient, Long> {
+    Optional<Patient> findByEmail(String email);
+    Optional<Patient> findByPhone(String phone);
 }

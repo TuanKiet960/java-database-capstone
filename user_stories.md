@@ -1,36 +1,28 @@
 # User Stories
 
-## Overview
-This document defines user stories for three roles in the system: **Doctor**, **Patient**, and **Admin**. Each story follows the "As a <role>, I want <goal>, so that <reason>" format.
+## Doctor
+- As a **Doctor**, I want to view my appointments for a selected day, so that I can prepare for consultations.
+- As a **Doctor**, I want to update appointment status (Confirmed / Completed / Cancelled), so that records are accurate.
+- As a **Doctor**, I want to add notes to a patient's appointment, so that other clinicians can see treatment details.
+- As a **Doctor**, I want to set available time slots for a date, so patients can book consultations.
+- As a **Doctor**, I want to receive notifications for new bookings or cancellations, so I can adjust my schedule.
 
----
+## Patient
+- As a **Patient**, I want to create an account and update my profile, so that contact information is current.
+- As a **Patient**, I want to search doctors by specialty/time and view available slots, so I can book appointments.
+- As a **Patient**, I want to book, view and cancel my appointments, so I can manage my visits.
+- As a **Patient**, I want to receive SMS/email reminders for upcoming appointments, so I don't miss them.
+- As a **Patient**, I want to view my past appointment history and prescriptions, so I can track care.
 
-### Doctor
-- As a **Doctor**, I want to view my appointment list for the day, so that I can prepare for consultations.
-- As a **Doctor**, I want to view patient medical history, so that I can provide appropriate treatment.
-- As a **Doctor**, I want to update appointment status (Confirmed / Completed / Cancelled), so that schedule is accurate.
-- As a **Doctor**, I want to add notes to a patient's record, so that other doctors and staff can see treatment details.
-- As a **Doctor**, I want to receive notifications for new appointments or cancellations, so that I can adjust my schedule.
+## Admin
+- As an **Admin**, I want to manage users and roles directly on the User record, so I can control access without extra tables.
+- As an **Admin**, I want to add doctors and manage doctor profiles (specialty, available times), so the system can accept bookings.
+- As an **Admin**, I want to view system reports (appointments by doctor, cancellations), so I can monitor clinic load.
+- As an **Admin**, I want to configure notification templates (email/SMS), so communications to patients are consistent.
+- As an **Admin**, I want to run data exports for audit and backups.
 
-### Patient
-- As a **Patient**, I want to create an account and manage my profile, so that my personal and contact details are available.
-- As a **Patient**, I want to book an appointment with a doctor, so that I can get medical help.
-- As a **Patient**, I want to view and cancel my upcoming appointments, so that I can manage my schedule.
-- As a **Patient**, I want to receive appointment reminders (email/SMS), so that I don't miss appointments.
-- As a **Patient**, I want to view my medical records and appointment history, so that I can track past treatments.
-
-### Admin
-- As an **Admin**, I want to manage user accounts (create, update, delete), so that system users are maintained.
-- As an **Admin**, I want to assign or change user roles (Doctor / Patient / Admin), so that access rights are correct.
-- As an **Admin**, I want to view and manage all appointments, so that I can reschedule or reassign when needed.
-- As an **Admin**, I want to configure notification templates and channels, so that communications are consistent.
-- As an **Admin**, I want to view system reports (appointments per doctor, cancellations, active users), so that I can monitor system usage.
-
----
-
-## Acceptance Criteria (example)
-- Each user can only access pages permitted by their role.
-- Patients can book appointments only for available time slots.
-- Doctors see only their own appointments.
-- Admins can change roles directly on the user's record without creating new tables.
-
+## Acceptance Criteria (examples)
+- Roles stored on `users.role` (ENUM) and changeable from Admin UI.
+- Entity classes use JPA annotations (@Entity, @Id, @GeneratedValue) and relations where appropriate.
+- APIs follow REST patterns and require token authentication for protected actions.
+- Provide screenshots for the required UI views and outputs for the SQL reports/curl responses.
